@@ -21,6 +21,13 @@ Mail Agent translates natural language requests into structured email drafts and
 
 The agent runs as a cyclical state machine powered by **LangGraph**:
 
+<p align="center">
+  <img src="./flowchart.svg" alt="Mail Agent HITL Workflow Architecture" width="720" />
+</p>
+
+<details>
+<summary>Click to view Mermaid Diagram source</summary>
+
 ```mermaid
 flowchart TD
     START([Start]) --> retriever[Retriever Node<br/><i>Extracts recipient & reason</i>]
@@ -34,6 +41,8 @@ flowchart TD
     send --> END([End])
     cancel --> END([End])
 ```
+
+</details>
 
 ### State & Execution Nodes
 
@@ -53,6 +62,7 @@ flowchart TD
 ```text
 MAIL-AGENT/
 ├── agent.py            # Main application script & LangGraph definition
+├── flowchart.svg       # Detailed workflow flowchart diagram (vector)
 ├── pyproject.toml      # Project configuration and dependency definitions
 ├── requirements.txt    # Pip dependency requirements
 ├── uv.lock             # uv lockfile for deterministic dependency resolution

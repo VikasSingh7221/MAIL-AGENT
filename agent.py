@@ -149,37 +149,38 @@ graph.add_edge("cancel", END)
 final_graph = graph.compile(checkpointer=InMemorySaver())
 
 
-while True:
-    query = input("User: ")
-    if query == "quit":
-        print("Bye 👋")
-        break
-    
-    config = {"configurable": {"thread_id":"2"}}
-    res = final_graph.invoke(
-        {"question":query},
-        config=config
-    )
-
+if __name__ == "__main__":
     while True:
-        state = final_graph.get_state(config)
-        
-        if not state.next:
+        query = input("User: ")
+        if query == "quit":
+            print("Bye 👋")
             break
         
-        print("\n", "-"*60)
-        print("Subject: ", res["subject"])
-        print("Body: ", res["body"])
-        print("\n", "-"*60)
-        
-
-        feedback = input("Approve to send the mail or provide the feedback: ")
+        config = {"configurable": {"thread_id":"2"}}
         res = final_graph.invoke(
-                Command(resume=feedback),
-                config=config
-            )         
-    
-    print("AI: ", res["response"])
+            {"question":query},
+            config=config
+        )
+
+        while True:
+            state = final_graph.get_state(config)
+            
+            if not state.next:
+                break
+            
+            print("\n", "-"*60)
+            print("Subject: ", res["subject"])
+            print("Body: ", res["body"])
+            print("\n", "-"*60)
+            
+
+            feedback = input("Approve to send the mail or provide the feedback: ")
+            res = final_graph.invoke(
+                    Command(resume=feedback),
+                    config=config
+                )         
+        
+        print("AI: ", res["response"])
 
 
         
